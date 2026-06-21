@@ -1,0 +1,31 @@
+[package]
+name = "mpl-core-babelfish-tests"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+# Runs mpl-core's instruction suite through the TestSVM mollusk adapter against
+# the project's own built `mpl_core_program.so`. Additive: the project's native
+# mollusk suite (programs/mpl-core/tests/) and its mollusk-svm 0.6 dev-pin are
+# untouched. Deps resolve to LOCAL paths until pushed to cds-rs. Own workspace
+# (empty `[workspace]`) for an isolated lockfile (the adapter's agave-4.0 graph).
+
+[dependencies]
+testsvm = { path = "../../anchor-litesvm/crates/testsvm" }
+testsvm-mollusk = { path = "../../anchor-litesvm/crates/testsvm-mollusk" }
+mpl-core-program = { path = "../programs/mpl-core" }
+
+solana-account = "3"
+solana-pubkey = "3"
+solana-keypair = "3"
+solana-signer = "3"
+borsh = "1.5"
+
+# Pin solana crates to what the mollusk agave-4.0 graph accepts: the resolver
+# otherwise pulls solana-instruction 3.4 (which mollusk's bpf-loader 4.0 caps
+# below). Matches the working runner-mollusk lock.
+solana-instruction = "=3.3.0"
+solana-system-interface = "=3.1.0"
+solana-transaction-error = "=3.1.0"
+
+[workspace]
